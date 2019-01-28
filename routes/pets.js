@@ -13,6 +13,7 @@ module.exports = (app) => {
 
   // CREATE PET
   app.post('/pets', (req, res) => {
+    console.log(req.body);
     var pet = new Pet(req.body);
 
     pet.save()
@@ -46,6 +47,7 @@ module.exports = (app) => {
         res.redirect(`/pets/${pet._id}`)
       })
       .catch((err) => {
+          console.log("here");
         // Handle Errors
       });
   });
@@ -70,7 +72,7 @@ module.exports = (app) => {
         ]
       },
       { page: page }).then((results) => {
-        res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page });
+        res.render('pets-index', { pets: results.docs, pagesCount: results.pages, currentPage: page, term: req.query.term });
       });
   });
 
