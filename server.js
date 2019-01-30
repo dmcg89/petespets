@@ -37,6 +37,8 @@ app.use(cookieParser());
 //specifies root directory from which to serve static assests (in this case the images?)
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.locals.PUBLIC_STRIPE_API_KEY = process.env.PUBLIC_STRIPE_API_KEY
+
 require('./routes/index.js')(app);
 require('./routes/pets.js')(app);
 
