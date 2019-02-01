@@ -16,8 +16,14 @@ const methodOverride = require('method-override')
 const app = express();
 
 const mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI ||'mongodb://localhost/petes-pets', { useNewUrlParser: true });
 
+console.log("database connection", process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/petes-pets', { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+    console.log('Database connected successfully.');
+});
 // mongoose.connect('mongodb://localhost/petes-pets');
 
 // view engine setup
