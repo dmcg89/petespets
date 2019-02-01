@@ -10,6 +10,7 @@ block content
         .card-body
           h4.card-title= pet.name
           small.text-muted= pet.species
+        small.text-muted= pet.birthday
           p.card-text= pet.description
           .text-right
               a.card-link(href=`/pets/${pet._id}`) View #{pet.name}
@@ -18,6 +19,7 @@ block content
         .card-body
           h4.card-title= pet.name
           small.text-muted= pet.species
+        small.text-muted= pet.birthday
           p.card-text= pet.description
           .text-right
               a.card-link(href=`/pets/${pet._id}`) View #{pet.name}

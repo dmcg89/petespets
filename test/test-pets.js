@@ -25,7 +25,7 @@ describe('Pets', ()  => {
     })
   });
 
-  // TEST INDEX
+  // TEST INDEX passing
   it('should index ALL pets on / GET', (done) => {
     chai.request(server)
         .get('/')
@@ -36,7 +36,20 @@ describe('Pets', ()  => {
         });
   });
 
-  // TEST NEW
+  // TEXT INDEX JSON passing
+it('should list ALL pets on /pets GET JSON', function(done) {
+chai.request(server)
+    .get('/')
+    .set('content-type', 'application/json')
+    .end((err, res) => {
+      res.should.have.status(200);
+      res.should.be.json;
+      res.body.should.be.a('object');
+      done();
+    });
+});
+
+  // TEST NEW passing
   it('should display new form on /pets/new GET', (done) => {
     chai.request(server)
       .get(`/pets/new`)
@@ -47,39 +60,86 @@ describe('Pets', ()  => {
         });
   });
 
-  // TEST CREATE
+  // TEST NEW JSON passing
+  it('should send json /pets/new GET JSON', function(done) {
+  chai.request(server)
+    .get('/pets/new')
+    .set('content-type', 'application/json')
+    .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('object');
+        done();
+      });
+  });
+
+  // TEST CREATE PASSING
   it('should create a SINGLE pet on /pets POST', (done) => {
     chai.request(server)
         .post('/pets')
         .send(fido)
         .end((err, res) => {
           res.should.have.status(200);
-          res.should.be.html
+          if(('content-type') == 'text/html') {
+              res.should.be.html
+          }
           done();
         });
   });
 
-  // TEST SHOW
+  // TEST CREATE JSON passing
+  it('should create a SINGLE pet on /pets and POST JSON', function(done) {
+  chai.request(server)
+    .post('/pets')
+    .send(fido)
+    .set('content-type', 'application/json')
+    .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.json;
+        done();
+      });
+  });
+
+
+  // TEST SHOW not passing
   it('should show a SINGLE pet on /pets/<id> GET', (done) => {
     var pet = new Pet(fido);
-     pet.save((err, data) => {
+     pet.save(() => {
        chai.request(server)
-         .get(`/pets/${data._id}`)
+         .get(`/pets/${pet._id}`)
          .end((err, res) => {
+           // console.log("here", pet);
+           // console.log("response", res.error)
+
            res.should.have.status(200);
            res.should.be.html
            done();
          });
      });
 
+  });
+
+  // TEST SHOW JSON
+  it('should show JSON for a SINGLE pet on /pets/<id> GET', (done) => {
+  var pet = new Pet(fido);
+  pet.save(() => {
+    chai.request(server)
+      .get(`/pets/${pet._id}`)
+      .set('content-type', 'application/json')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json
+          done();
+        });
+    });
   });
 
   // TEST EDIT
   it('should edit a SINGLE pet on /pets/<id>/edit GET', (done) => {
     var pet = new Pet(fido);
-     pet.save((err, data) => {
+     pet.save((err, pet) => {
        chai.request(server)
-         .get(`/pets/${data._id}/edit`)
+         .get(`/pets/${pet._id}/edit`)
          .end((err, res) => {
            res.should.have.status(200);
            res.should.be.html
@@ -87,6 +147,21 @@ describe('Pets', ()  => {
          });
      });
   });
+
+  // TEST EDIT JSON
+it('should send JSON to edit a SINGLE pet on /pets/<id>/edit GET JSON', (done) => {
+  var pet = new Pet(fido);
+  pet.save((err, pet) => {
+    chai.request(server)
+      .get(`/pets/${pet._id}/edit`)
+        .set('content-type', 'application/json')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json
+          done();
+       });
+   });
+});
 
 
   // TEST UPDATE
@@ -113,6 +188,30 @@ describe('Pets', ()  => {
           done();
         });
   });
+
+  // TEST SEARCH JSON
+it('should search ALL pets by name on /search GET JSON', (done) => {
+    chai.request(server)
+      .get('/search?term=norman')
+        .set('content-type', 'application/json')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.should.be.json;
+          done();
+      });
+});
+
+  it('should list ALL pets on /pets GET', function(done) {
+  chai.request(server)
+      .get('/')
+      .set('content-type', 'application/json')
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('object');
+        done();
+      });
+});
 
   // TEST DELETE
   it('should delete a SINGLE pet on /pets/<id> DELETE', (done) => {
