@@ -4,15 +4,16 @@ const server = require('../server');
 const should = chai.should();
 const Pet = require('../models/pet');
 
-const fido =     {
-    "name": "Norman",
-    "species": "Greyhound",
-    "birthday": "2008-11-11",
-    "favoriteFood": "Liver",
-    "picUrl": "http://www.gpamass.com/s/img/emotionheader713297504.jpg",
-    "picUrlSq": "https://www.collinsdictionary.com/images/thumb/greyhound_21701074_250.jpg",
-    "description": "Fido is a dog and he's a good dog who loves to play and hang out with his owners. He also likes to nap and enjoys eating dog food"
-}
+const fido = {
+  name: 'Norman',
+  species: 'Greyhound',
+  birthday: '2008-11-11',
+  favoriteFood: 'Liver',
+  avatarUrl: 'https://www.collinsdictionary.com/images/thumb/greyhound_21701074_250.jpg',
+  description: `Fido is a dog and he's a good dog who loves to play and hang out with his owners.
+  He also likes to nap and enjoys eating dog food. He's an excellent test case for our project.`,
+  price: 10,
+};
 
 chai.use(chaiHttp);
 
