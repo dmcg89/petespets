@@ -16,8 +16,13 @@ const methodOverride = require('method-override')
 const app = express();
 
 const mongoose = require('mongoose');
+var Raven = require('raven');
+Raven.config('https://fefd5009fa024061b8a9c15315ab1503@sentry.io/<project>').install();
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/petes-pets');
+// mongoose.connect(process.env.MONGODB_URI || 'mmongodb');
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: '' });
 
 // console.log("database connection", process.env.MONGODB_URI);
 // mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/petes-pets', { useNewUrlParser: true });
